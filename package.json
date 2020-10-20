@@ -1,0 +1,50 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "12.18.3",
+    "npm": "6.14.6"
+  },
+  "scripts": {
+    "test": "mocha --require test/setup.js",
+    "dev": "nodemon index.js",
+    "migrate": "postgrator --config postgrator-config.js",
+    "start": "node index.js",
+    "predeploy": "npm audit",
+    "deploy": "git push heroku master"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@progress/kendo-react-buttons": "^3.17.0",
+    "@progress/kendo-react-conversational-ui": "^3.17.0",
+    "@progress/kendo-react-inputs": "^3.17.0",
+    "@progress/kendo-react-intl": "^3.17.0",
+    "@progress/kendo-theme-material": "^3.20.0",
+    "bcrypt": "^5.0.0",
+    "cloudinary": "^1.23.0",
+    "cloudinary-react": "^1.6.7",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.4.1",
+    "twilio-chat": "^3.3.2"
+  },
+  "proxy": "http://localhost:3000",
+    "eslintConfig": {
+    "extends": "react-app"
+  },
+  "devDependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-pino-logger": "^4.0.0",
+    "node-env-run": "^3.0.2",
+    "nodemon": "^1.19.3",
+    "npm-run-all": "^4.1.5",
+    "pino-colada": "^1.4.5",
+    "twilio": "^3.35.1"
+  }
+}

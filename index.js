@@ -210,7 +210,6 @@ app.post('/user', async(req,res) => {
 
 
     const user = await pool.query("INSERT INTO profiles ( username, first_name, last_name, password, email ) VALUES ('CATGUY1', 'BOB', 'MCNOB', 'SECRET', 'MCNOB@GMAIL.COM')")
-    pool.end();
   } catch (err) {
   
     console.log("not working")
@@ -218,6 +217,7 @@ app.post('/user', async(req,res) => {
     console.log(err.message)
     res.status(500).json({err: 'Something went wrong'})
   }
+  pool.end();
 })
 
 //GET ALL USERS

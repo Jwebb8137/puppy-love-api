@@ -181,15 +181,15 @@ app.post('/users', async(req,res) => {
 
     console.log("putting info in db")
 
-    const newUser = await pool.query("INSERT INTO profiles (email, username, password, headline, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies, photo_url, photo_pet_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)",
-      [email, username, password, headline, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies, photo_url, photo_pet_url]
+    const newUser = await pool.query("INSERT INTO profiles (email, username, password, first_name, last_name) VALUES($1, $2, $3, $4, $5)",
+      [email, username, password, first_name, last_name]
     );
 
     // generate jwt token
 
     console.log("generating token")
     
-    const token = jwtGenerator(newUser.rows[0].user_id);
+    // const token = jwtGenerator(newUser.rows[0].user_id);
 
     // res.json({ token })
 

@@ -1,5 +1,3 @@
-//https://powerful-springs-71505.herokuapp.com/ | https://git.heroku.com/powerful-springs-71505.git
-
 const express = require("express");
 const app = express();
 const { cloudinary } = require("./utils/cloudinary");
@@ -137,6 +135,8 @@ app.post("/login", async(req, res) => {
 app.post('/users', async(req,res) => {
   try {
 
+    console.log(req.body)
+
     //Upload image to cloudinary
 
     const { previewSource } = req.body;
@@ -187,6 +187,7 @@ app.post('/users', async(req,res) => {
     res.json({ token })
 
   } catch (err) {
+    console.log("not working")
     console.log(req.body.data)
 
     console.log(err.message)

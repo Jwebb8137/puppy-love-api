@@ -11,7 +11,6 @@ const bcrypt = require("bcrypt");
 const jwtGenerator = require("./utils/jwtGenerator");
 const validInfo = require("./middleware/validInfo");
 const authorization = require("./middleware/authorization");
-const pino = require("express-pino-logger")();
 const config = require('./config');
 const bodyParser = require('body-parser');
 const { chatToken, videoToken } = require('./tokens');
@@ -26,7 +25,6 @@ const { chatToken, videoToken } = require('./tokens');
 app.use(cors())
 app.use(express.json({ limit: '50mb' })); //req.body
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
-app.use(pino);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 if(process.env.NODE_ENV === "production") {

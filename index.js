@@ -205,12 +205,12 @@ app.post('/users', async(req,res) => {
 app.post('/user', async(req,res) => {
   try {
 
-    const { username, first_name, last_name } = req.body;
+    const { username, first_name, last_name, password } = req.body;
     
 
 
-    const user = await pool.query("INSERT INTO profiles ( username, first_name, last_name ) VALUES($1, $2, $3) RETURNING *",
-      [ username, first_name, last_name ]
+    const user = await pool.query("INSERT INTO profiles ( username, first_name, last_name, password ) VALUES($1, $2, $3, $4) RETURNING *",
+      [ username, first_name, last_name, password ]
     );
 
   } catch (err) {

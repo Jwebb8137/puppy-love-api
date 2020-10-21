@@ -209,9 +209,7 @@ app.post('/user', async(req,res) => {
     
 
 
-    const user = await pool.query("INSERT INTO profiles ( username, first_name, last_name, password, email ) VALUES($1, $2, $3, $4, $5) RETURNING *",
-      [ username, first_name, last_name, password, email ]
-    );
+    const user = await pool.query("INSERT INTO profiles ( username, first_name, last_name, password, email ) VALUES ('CATGUY1', 'BOB', 'MCNOB', 'SECRET', 'MCNOB@GMAIL.COM')")
 
   } catch (err) {
   

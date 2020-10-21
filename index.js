@@ -138,6 +138,8 @@ app.post('/users', async(req,res) => {
 
     //Upload image to cloudinary
 
+    console.log("uploading photos")
+
     const { previewSource } = req.body;
 
     const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
@@ -162,38 +164,36 @@ app.post('/users', async(req,res) => {
     
     //check for existing user (if so throw error)
 
-    // const user = await pool.query("SELECT * FROM profiles WHERE username = $1", [username])
+    const user = await pool.query("SELECT * FROM profiles WHERE username = $1", [username])
     
-    // if(user.rows.length !== 0) {
-    //   return res.status(401).send("User already exists");
-    // }
+    if(user.rows.length !== 0) {
+      return res.status(401).send("User already exists");
+    }
 
     //Bcrypt password
 
-    // console.log("encrypting")
+    console.log("encrypting")
 
-    // const saltRounds = 10;
-    // const salt = await bcrypt.genSalt(saltRounds);
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
 
-    // const bcryptPassword = await bcrypt.hash(password, salt);
+    const bcryptPassword = await bcrypt.hash(password, salt);
 
     //if no user exists
 
     console.log("putting info in db")
 
-    const newUser = await pool.query("INSERT INTO profiles (email, username, password, first_name, last_name) VALUES($1, $2, $3, $4, $5)",
-      [email, username, password, first_name, last_name]
+    const newUser = await pool.query("INSERT INTO profiles (email, username, password, headline, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies, photo_url, photo_pet_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING *",
+      [email, username, bcryptPassword, headline, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies, photo_url, photo_pet_url]
     );
 
     // generate jwt token
 
     console.log("generating token")
     
-    // const token = jwtGenerator(newUser.rows[0].user_id);
+    const token = jwtGenerator(newUser.rows[0].user_id);
 
-    // res.json({ token })
-
-    res.end()
+    res.json({ token })
 
   } catch (err) {
   

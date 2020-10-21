@@ -135,8 +135,6 @@ app.post("/login", async(req, res) => {
 app.post('/users', async(req,res) => {
   try {
 
-    console.log(req.body)
-
     //Upload image to cloudinary
 
     const { previewSource } = req.body;
@@ -169,6 +167,8 @@ app.post('/users', async(req,res) => {
 
     //Bcrypt password
 
+    console.log("encrypting")
+
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
 
@@ -176,11 +176,15 @@ app.post('/users', async(req,res) => {
 
     //if no user exists
 
+    console.log("putting info in db")
+
     const newUser = await pool.query("INSERT INTO profiles (email, username, password, headline, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies, photo_url, photo_pet_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING *",
       [email, username, bcryptPassword, headline, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies, photo_url, photo_pet_url]
     );
 
     // generate jwt token
+
+    console.log("generating token")
     
     const token = jwtGenerator(newUser.rows[0].user_id);
 
@@ -188,7 +192,6 @@ app.post('/users', async(req,res) => {
 
   } catch (err) {
     console.log("not working")
-    console.log(req.body.data)
 
     console.log(err.message)
     res.status(500).json({err: 'Something went wrong'})

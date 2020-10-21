@@ -191,7 +191,7 @@ app.post('/users', async(req,res) => {
     
     const token = jwtGenerator(newUser.rows[0].user_id);
 
-    res.json({ token })
+    // res.json({ token })
 
     res.end()
 

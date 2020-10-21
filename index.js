@@ -207,7 +207,7 @@ app.post('/users', async(req,res) => {
 app.get("/users", async(req, res) => {
   try {
     const allUsers = await pool.query("SELECT * FROM profiles")
-    res.json(allUsers.rows)
+    res.json("Working")
   } catch (err) {
     console.error(err.message)
   }

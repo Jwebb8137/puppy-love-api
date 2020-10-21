@@ -206,7 +206,7 @@ app.post('/user', async(req,res) => {
   try {
     const { username, first_name, last_name, password, email } = req.body;
     const user = await pool.query("INSERT INTO profiles ( username, first_name, last_name, password, email ) VALUES ('CATGUY1', 'BOB', 'MCNOB', 'SECRET', 'MCNOB@GMAIL.COM')")
-
+    res.end()
   } catch (err) {
   
     console.log("not working")

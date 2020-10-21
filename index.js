@@ -155,6 +155,8 @@ app.post('/users', async(req,res) => {
 
     //destructure body
 
+    console.log("destructuring")
+
     const { email, username, headline, password, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies } = req.body;
     
     //check for existing user (if so throw error)

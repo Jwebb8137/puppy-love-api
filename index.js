@@ -193,6 +193,8 @@ app.post('/users', async(req,res) => {
     res.json({ token })
 
   } catch (err) {
+    console.log(req.body)
+    console.log(token)
     console.log("not working")
 
     console.log(err.message)

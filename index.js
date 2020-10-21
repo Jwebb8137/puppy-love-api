@@ -164,7 +164,7 @@ app.post('/users', async(req,res) => {
     
     //check for existing user (if so throw error)
 
-    const user = await pool.query("SELECT * FROM profiles WHERE username = $1", [username])
+    const user = await pool.query("SELECT * FROM profiles WHERE username = $1 RETURNING *", [username])
     
     if(user.rows.length !== 0) {
       return res.status(401).send("User already exists");

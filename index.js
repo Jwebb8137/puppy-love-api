@@ -205,7 +205,10 @@ app.post('/users', async(req,res) => {
 app.post('/user', async(req,res) => {
   try {
     const { username, first_name, last_name, password, email } = req.body;
-    const user = await pool.query("INSERT INTO profiles ( username, first_name, last_name, password, email ) VALUES ('CATGUY1', 'BOB', 'MCNOB', 'SECRET', 'MCNOB@GMAIL.COM')")
+    // const user = await pool.query("INSERT INTO profiles ( username, first_name, last_name, password, email ) VALUES ('CATGUY1', 'BOB', 'MCNOB', 'SECRET', 'MCNOB@GMAIL.COM')")
+    const user = await pool.query("INSERT INTO profiles (email, username, password, first_name, last_name) VALUES($1, $2, $3, $4, $5)",
+    [email, username, first_name, last_name, password]
+  );
     res.end()
   } catch (err) {
   

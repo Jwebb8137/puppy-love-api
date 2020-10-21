@@ -140,21 +140,21 @@ app.post('/users', async(req,res) => {
 
     console.log("uploading photos")
 
-    // const { previewSource } = req.body;
+    const { previewSource } = req.body;
 
-    // const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
-    //   upload_preset: 'default'
-    // })
-    const photo_url = "also testing";
+    const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
+      upload_preset: 'default'
+    })
+    const photo_url = uploadedResponse.url;
 
-    // //Upload pet image to cloudinary
+    //Upload pet image to cloudinary
 
-    // const { previewPetSource } = req.body;
+    const { previewPetSource } = req.body;
 
-    // const uploadedPetResponse = await cloudinary.uploader.upload(previewPetSource, {
-    //   upload_preset: 'default'
-    // })
-    const photo_pet_url = "testing";
+    const uploadedPetResponse = await cloudinary.uploader.upload(previewPetSource, {
+      upload_preset: 'default'
+    })
+    const photo_pet_url = uploadedPetResponse.url;
 
     //destructure body
 

@@ -145,7 +145,7 @@ app.post('/users', async(req,res) => {
     // const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
     //   upload_preset: 'default'
     // })
-    // const photo_url = uploadedResponse.url;
+    const photo_url = "also testing";
 
     // //Upload pet image to cloudinary
 
@@ -154,7 +154,7 @@ app.post('/users', async(req,res) => {
     // const uploadedPetResponse = await cloudinary.uploader.upload(previewPetSource, {
     //   upload_preset: 'default'
     // })
-    // const photo_pet_url = uploadedPetResponse.url;
+    const photo_pet_url = "testing";
 
     //destructure body
 

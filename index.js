@@ -283,6 +283,7 @@ app.get('/members', (req, res) => {
     .members
     .list({limit: 20})
     .then(members => members.forEach(m => console.log(m.sid)));
+  res.end()
 });
 
 app.post('/video/token', (req, res) => {

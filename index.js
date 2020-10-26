@@ -273,6 +273,15 @@ app.get('/video/token', (req, res) => {
   sendTokenResponse(token, res);
 });
 
+app.get('/members', (req, res) => {
+  const client = require('twilio')(accountSid, token);
+  client.chat.v1.services('ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+    .channels('CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+    .members
+    .list({limit: 20})
+    .then(members => members.forEach(m => console.log(m.sid)));
+});
+
 app.post('/video/token', (req, res) => {
   const identity = req.body.identity;
   const room = req.body.room;

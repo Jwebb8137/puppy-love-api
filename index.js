@@ -297,7 +297,7 @@ app.post('/members', (req, res) => {
     .members
     .list({limit: 20})
     .then(members => members.forEach(m => console.log(m.sid)));
-  res.send(list)
+  res.send("worked")
 });
 
 app.post('/video/token', (req, res) => {

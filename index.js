@@ -305,6 +305,7 @@ app.post('/users/:userid', async(req,res) => {
     [photo_url, user_id]
     );
     console.log("working")
+    res.end()
   } catch (err) {
     console.log(err.message)
     res.status(500).json({err: 'Something went wrong'})

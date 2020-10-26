@@ -289,12 +289,15 @@ app.post('/user', async(req,res) => {
 
 app.post('/members', (req, res) => {
   const { identity, channel, instance } = req.body;
-  client.chat.v1.services(instance)
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const token = chatToken(identity, config);
+  const client = require('twilio')(accountSid, token);
+  const list = client.chat.v1.services(instance)
     .channels(channel)
     .members
     .list({limit: 20})
     .then(members => members.forEach(m => console.log(m.sid)));
-  res.send()
+  res.send(list)
 });
 
 app.post('/video/token', (req, res) => {

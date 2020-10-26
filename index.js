@@ -135,13 +135,9 @@ app.post("/login", async(req, res) => {
 
 app.post('/users', async(req,res) => {
   try {
-
     //Upload image to cloudinary
 
-    console.log("uploading photos")
-
     const { previewSource } = req.body;
-
     const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
       upload_preset: 'default'
     })
@@ -150,15 +146,12 @@ app.post('/users', async(req,res) => {
     //Upload pet image to cloudinary
 
     const { previewPetSource } = req.body;
-
     const uploadedPetResponse = await cloudinary.uploader.upload(previewPetSource, {
       upload_preset: 'default'
     })
     const photo_pet_url = uploadedPetResponse.url;
 
     //destructure body
-
-    console.log("destructuring")
 
     const { email, username, headline, password, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies } = req.body;
     
@@ -172,8 +165,6 @@ app.post('/users', async(req,res) => {
 
     //Bcrypt password
 
-    console.log("encrypting")
-
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
 
@@ -181,24 +172,17 @@ app.post('/users', async(req,res) => {
 
     //if no user exists
 
-    console.log("putting info in db")
-
     const newUser = await pool.query("INSERT INTO profiles (email, username, password, headline, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies, photo_url, photo_pet_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING *",
       [email, username, bcryptPassword, headline, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies, photo_url, photo_pet_url]
     );
 
     // generate jwt token
 
-    console.log("generating token")
-    
     const token = jwtGenerator(newUser.rows[0].user_id);
 
     res.json({ token })
 
   } catch (err) {
-  
-    console.log("not working")
-
     console.log(err.message)
     res.status(500).json({err: 'Something went wrong'})
   }
@@ -213,9 +197,6 @@ app.post('/user', async(req,res) => {
   );
     res.end()
   } catch (err) {
-  
-    console.log("not working")
-
     console.log(err.message)
     res.status(500).json({err: 'Something went wrong'})
   }
@@ -239,20 +220,6 @@ app.get("/users/:userid", async (req, res) => {
     const { userid } = req.params
     const user = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [userid])
     res.json(user.rows[0])
-  } catch (err) {
-    console.log(err.message)
-  }
-})
-
-// //UPDATE A USER
-
-app.put("/users/:userid", async(req, res) => {
-  try {
-    const { userid } = req.params
-    const { username } = req.body
-    const updateUser = await pool.query("UPDATE profiles SET username = $1 WHERE user_id = $2", [username, userid])
-
-    res.json("User was updated!")
   } catch (err) {
     console.log(err.message)
   }
@@ -320,3 +287,40 @@ app.get("*", (req,res) => {
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`)
 })
+
+//EDIT PROFILE PIC
+
+app.post('/users/:userid', async(req,res) => {
+  try {
+    console.log("working")
+
+    //Upload image to cloudinary
+
+    const {previewSource, user_id} = req.body;
+    const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
+      upload_preset: 'default'
+    })
+    const photo_url = uploadedResponse.url;
+    const updatePhoto = await pool.query("UPDATE profiles SET photo_url = $1 WHERE userid = $2",
+    [photo_url, user_id]
+    );
+    console.log("working")
+  } catch (err) {
+    console.log(err.message)
+    res.status(500).json({err: 'Something went wrong'})
+  }
+})
+
+// //UPDATE A USER
+
+// app.put("/users/:userid", async(req, res) => {
+//   try {
+//     const { userid } = req.params
+//     const { userid } = req.body
+//     const updateUser = await pool.query("UPDATE profiles SET photo_url = $1 WHERE user_id = $2", [username, userid])
+
+//     res.json("User was updated!")
+//   } catch (err) {
+//     console.log(err.message)
+//   }
+// })

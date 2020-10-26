@@ -274,6 +274,9 @@ app.get('/video/token', (req, res) => {
 });
 
 app.get('/members', (req, res) => {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const identity = req.body.identity;
+  const token = chatToken(identity, config);
   const client = require('twilio')(accountSid, token);
   client.chat.v1.services('ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
     .channels('CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')

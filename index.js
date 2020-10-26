@@ -273,13 +273,24 @@ app.get('/video/token', (req, res) => {
   sendTokenResponse(token, res);
 });
 
-app.get('/members', (req, res) => {
-  const accountSid = process.env.TWILIO_ACCOUNT_SID;
-  const identity = req.body.identity;
-  const token = chatToken(identity, config);
-  const client = require('twilio')(accountSid, token);
-  client.chat.v1.services('ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-    .channels('CHXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+app.post('/user', async(req,res) => {
+  try {
+    const { username, first_name, last_name, password, email } = req.body;
+    // const user = await pool.query("INSERT INTO profiles ( username, first_name, last_name, password, email ) VALUES ('CATGUY1', 'BOB', 'MCNOB', 'SECRET', 'MCNOB@GMAIL.COM')")
+    const user = await pool.query("INSERT INTO profiles (email, username, password, first_name, last_name) VALUES($1, $2, $3, $4, $5)",
+    [email, username, first_name, last_name, password]
+  );
+    res.end()
+  } catch (err) {
+    console.log(err.message)
+    res.status(500).json({err: 'Something went wrong'})
+  }
+})
+
+app.post('/members', (req, res) => {
+  const { identity, channel, instance } = req.body;
+  client.chat.v1.services(instance)
+    .channels(channel)
     .members
     .list({limit: 20})
     .then(members => members.forEach(m => console.log(m.sid)));

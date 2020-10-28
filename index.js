@@ -20,9 +20,8 @@ app.use(express.json({ limit: '50mb' })); //req.body
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 if(process.env.NODE_ENV === "production") {
-  //server static content
-  //npm run build
   app.use(express.static(path.join(__dirname, "client/build")));
 }
 
@@ -185,7 +184,6 @@ app.post('/users', async(req,res) => {
 app.post('/user', async(req,res) => {
   try {
     const { username, first_name, last_name, password, email } = req.body;
-    // const user = await pool.query("INSERT INTO profiles ( username, first_name, last_name, password, email ) VALUES ('CATGUY1', 'BOB', 'MCNOB', 'SECRET', 'MCNOB@GMAIL.COM')")
     const user = await pool.query("INSERT INTO profiles (email, username, password, first_name, last_name) VALUES($1, $2, $3, $4, $5)",
     [email, username, first_name, last_name, password]
   );
@@ -266,19 +264,6 @@ app.get('/video/token', (req, res) => {
   const token = videoToken(identity, room, config);
   sendTokenResponse(token, res);
 });
-
-app.post('/user', async(req,res) => {
-  try {
-    const { username, first_name, last_name, password, email } = req.body;
-    const user = await pool.query("INSERT INTO profiles (email, username, password, first_name, last_name) VALUES($1, $2, $3, $4, $5)",
-    [email, username, first_name, last_name, password]
-  );
-    res.end()
-  } catch (err) {
-    console.log(err.message)
-    res.status(500).json({err: 'Something went wrong'})
-  }
-})
 
 app.post('/video/token', (req, res) => {
   const identity = req.body.identity;

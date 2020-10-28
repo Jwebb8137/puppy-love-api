@@ -40,15 +40,6 @@ app.get("/is-verified", authorization, async (req, res) => {
 
 app.use("/dashboard", require("./routes/dashboard"));
 
-// app.get("/dashboard", authorization, async (req, res) => {
-//   try {
-//     const user = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [req.user]);
-//     res.json(user.rows[0]);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error")
-//   }
-// })
 
 //RETRIEVE TARGET USER INFO
 
@@ -64,21 +55,23 @@ app.get("/target-info", authorization, async (req, res) => {
 
 //RETRIEVE IMAGES FROM CLOUDINARY
 
-app.get('/images', async (req, res) => {
-  try {
-    console.log("searching")
-    const {resources} = await cloudinary.search
-      .expression('folder:puppylove')
-      .sort_by('public_id', 'desc')
-      .max_results(30)
-      .execute();
-    const publicIds = resources.map((file) => file.public_id );
-    console.log(publicIds);
-    res.send(publicIds);      
-  } catch (err) {
-    console.error(err)
-  }
-})
+app.use("/images", require("./routes/cloudinary"));
+
+// app.get('/images', async (req, res) => {
+//   try {
+//     console.log("searching")
+//     const {resources} = await cloudinary.search
+//       .expression('folder:puppylove')
+//       .sort_by('public_id', 'desc')
+//       .max_results(30)
+//       .execute();
+//     const publicIds = resources.map((file) => file.public_id );
+//     console.log(publicIds);
+//     res.send(publicIds);      
+//   } catch (err) {
+//     console.error(err)
+//   }
+// })
 
 //LOGIN
 

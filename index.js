@@ -7,16 +7,10 @@ const path = require("path");
 const PORT = process.env.PORT || 5000;
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("./utils/jwtGenerator");
-const validInfo = require("./middleware/validInfo");
 const authorization = require("./middleware/authorization");
 const config = require('./config');
 const bodyParser = require('body-parser');
 const { chatToken, videoToken } = require('./tokens');
-
-//process.env.PORT
-//process.env.NODE_ENV => production or undefined
-
-
 
 //MIDDLEWARE
 
@@ -276,7 +270,6 @@ app.get('/video/token', (req, res) => {
 app.post('/user', async(req,res) => {
   try {
     const { username, first_name, last_name, password, email } = req.body;
-    // const user = await pool.query("INSERT INTO profiles ( username, first_name, last_name, password, email ) VALUES ('CATGUY1', 'BOB', 'MCNOB', 'SECRET', 'MCNOB@GMAIL.COM')")
     const user = await pool.query("INSERT INTO profiles (email, username, password, first_name, last_name) VALUES($1, $2, $3, $4, $5)",
     [email, username, first_name, last_name, password]
   );
@@ -325,17 +318,3 @@ app.post('/users/:userid', async(req,res) => {
     res.status(500).json({err: 'Something went wrong'})
   }
 })
-
-// //UPDATE A USER
-
-// app.put("/users/:userid", async(req, res) => {
-//   try {
-//     const { userid } = req.params
-//     const { userid } = req.body
-//     const updateUser = await pool.query("UPDATE profiles SET photo_url = $1 WHERE user_id = $2", [username, userid])
-
-//     res.json("User was updated!")
-//   } catch (err) {
-//     console.log(err.message)
-//   }
-// })

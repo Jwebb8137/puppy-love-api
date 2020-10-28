@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { cloudinary } = require("./utils/cloudinary");
+const { cloudinary } = require("../utils/cloudinary");
 const authorization = require("../middleware/authorization");
 
 router.get("/", authorization, async (req, res) => {

@@ -1,10 +1,6 @@
 const { expect } = require('chai');
 const supertest = require('supertest');
-const app = require('../index');
-const jwtGenerator = require("../utils/jwtGenerator");
-const authorization = require("../middleware/authorization");
-const config = require('../config');
-const bodyParser = require('body-parser');
+const app = require('../server');
 
 describe('Images retrieval', () => {
   it('should return images', () => {
@@ -26,14 +22,6 @@ describe('Dashboard access', () => {
   it('should reject access without authorization', () => {
     return supertest(app)
       .get('/dashboard')
-      .expect(403);
-  });
-});
-
-describe('Dashboard access', () => {
-  it('should reject access without authorization', () => {
-    return supertest(app)
-      .post('/login')
       .expect(403);
   });
 });

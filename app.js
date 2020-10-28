@@ -38,15 +38,17 @@ app.get("/is-verified", authorization, async (req, res) => {
 
 //USER DASHBOARD
 
-app.get("/dashboard", authorization, async (req, res) => {
-  try {
-    const user = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [req.user]);
-    res.json(user.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error")
-  }
-})
+app.use("/dashboard", require("./routes/dashboard"));
+
+// app.get("/dashboard", authorization, async (req, res) => {
+//   try {
+//     const user = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [req.user]);
+//     res.json(user.rows[0]);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server Error")
+//   }
+// })
 
 //RETRIEVE TARGET USER INFO
 

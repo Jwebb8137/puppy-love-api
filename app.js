@@ -36,10 +36,7 @@ app.get("/is-verified", authorization, async (req, res) => {
   }
 })
 
-//USER DASHBOARD
-
 app.use("/dashboard", require("./routes/dashboard"));
-
 
 //RETRIEVE TARGET USER INFO
 
@@ -53,64 +50,46 @@ app.get("/target-info", authorization, async (req, res) => {
   }
 })
 
-//RETRIEVE IMAGES FROM CLOUDINARY
-
 app.use("/images", require("./routes/cloudinary"));
 
-// app.get('/images', async (req, res) => {
+app.use("/login", require("./routes/login"));
+
+// app.post("/login", async(req, res) => {
 //   try {
-//     console.log("searching")
-//     const {resources} = await cloudinary.search
-//       .expression('folder:puppylove')
-//       .sort_by('public_id', 'desc')
-//       .max_results(30)
-//       .execute();
-//     const publicIds = resources.map((file) => file.public_id );
-//     console.log(publicIds);
-//     res.send(publicIds);      
+//     console.log(req.body)
+
+//     //1. destructure the req.body
+
+//     const {username, passwordInput} = req.body;
+
+//     //2. check if user doesn't exit (if not throw error)
+
+//     const user = await pool.query("SELECT * FROM profiles WHERE username = $1", [username])
+
+//     if (user.rows.length === 0) {
+//       return res.status(401).send("Password or username does is incorrect")
+//     }
+
+//     //3. check if password is correct
+
+//     const validPassword = await bcrypt.compare(passwordInput, user.rows[0].password);
+
+//     console.log(validPassword);
+
+//     if(!validPassword) {
+//       return res.status(401).send("Password or Email is incorrect")
+//     };
+
+//     //4. issue jwt token
+
+//     const token = jwtGenerator(user.rows[0].user_id);
+
+//     res.json({ token })
+    
 //   } catch (err) {
-//     console.error(err)
+//     console.error(err.message)
 //   }
 // })
-
-//LOGIN
-
-app.post("/login", async(req, res) => {
-  try {
-    console.log(req.body)
-
-    //1. destructure the req.body
-
-    const {username, passwordInput} = req.body;
-
-    //2. check if user doesn't exit (if not throw error)
-
-    const user = await pool.query("SELECT * FROM profiles WHERE username = $1", [username])
-
-    if (user.rows.length === 0) {
-      return res.status(401).send("Password or username does is incorrect")
-    }
-
-    //3. check if password is correct
-
-    const validPassword = await bcrypt.compare(passwordInput, user.rows[0].password);
-
-    console.log(validPassword);
-
-    if(!validPassword) {
-      return res.status(401).send("Password or Email is incorrect")
-    };
-
-    //4. issue jwt token
-
-    const token = jwtGenerator(user.rows[0].user_id);
-
-    res.json({ token })
-    
-  } catch (err) {
-    console.error(err.message)
-  }
-})
 
 
 //CREATE A USER

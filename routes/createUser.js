@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { cloudinary } = require("./utils/cloudinary");
 const pool = require("../db");
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../utils/jwtGenerator");

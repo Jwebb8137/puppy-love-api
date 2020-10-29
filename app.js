@@ -54,100 +54,64 @@ app.use("/images", require("./routes/cloudinary"));
 
 app.use("/login", require("./routes/login"));
 
-// app.post("/login", async(req, res) => {
-//   try {
-//     console.log(req.body)
-
-//     //1. destructure the req.body
-
-//     const {username, passwordInput} = req.body;
-
-//     //2. check if user doesn't exit (if not throw error)
-
-//     const user = await pool.query("SELECT * FROM profiles WHERE username = $1", [username])
-
-//     if (user.rows.length === 0) {
-//       return res.status(401).send("Password or username does is incorrect")
-//     }
-
-//     //3. check if password is correct
-
-//     const validPassword = await bcrypt.compare(passwordInput, user.rows[0].password);
-
-//     console.log(validPassword);
-
-//     if(!validPassword) {
-//       return res.status(401).send("Password or Email is incorrect")
-//     };
-
-//     //4. issue jwt token
-
-//     const token = jwtGenerator(user.rows[0].user_id);
-
-//     res.json({ token })
-    
-//   } catch (err) {
-//     console.error(err.message)
-//   }
-// })
-
+app.use("/users", require("./routes/createUser"));
 
 //CREATE A USER
 
-app.post('/users', async(req,res) => {
-  try {
-    //Upload image to cloudinary
+// app.post('/users', async(req,res) => {
+//   try {
+//     //Upload image to cloudinary
     
-    const { previewSource } = req.body;
-    const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
-      upload_preset: 'default'
-    })
-    const photo_url = uploadedResponse.url;
+//     const { previewSource } = req.body;
+//     const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
+//       upload_preset: 'default'
+//     })
+//     const photo_url = uploadedResponse.url;
 
-    //Upload pet image to cloudinary
+//     //Upload pet image to cloudinary
 
-    const { previewPetSource } = req.body;
-    const uploadedPetResponse = await cloudinary.uploader.upload(previewPetSource, {
-      upload_preset: 'default'
-    })
-    const photo_pet_url = uploadedPetResponse.url;
+//     const { previewPetSource } = req.body;
+//     const uploadedPetResponse = await cloudinary.uploader.upload(previewPetSource, {
+//       upload_preset: 'default'
+//     })
+//     const photo_pet_url = uploadedPetResponse.url;
 
-    //destructure body
+//     //destructure body
 
-    const { email, username, headline, password, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies } = req.body;
+//     const { email, username, headline, password, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies } = req.body;
     
-    //check for existing user (if so throw error)
+//     //check for existing user (if so throw error)
 
-    const user = await pool.query("SELECT * FROM profiles WHERE username = $1", [username])
+//     const user = await pool.query("SELECT * FROM profiles WHERE username = $1", [username])
     
-    if(user.rows.length !== 0) {
-      return res.status(401).send("User already exists");
-    }
+//     if(user.rows.length !== 0) {
+//       return res.status(401).send("User already exists");
+//     }
 
-    //Bcrypt password
+//     //Bcrypt password
 
-    const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
+//     const saltRounds = 10;
+//     const salt = await bcrypt.genSalt(saltRounds);
 
-    const bcryptPassword = await bcrypt.hash(password, salt);
+//     const bcryptPassword = await bcrypt.hash(password, salt);
 
-    //if no user exists
+//     //if no user exists
 
-    const newUser = await pool.query("INSERT INTO profiles (email, username, password, headline, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies, photo_url, photo_pet_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING *",
-      [email, username, bcryptPassword, headline, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies, photo_url, photo_pet_url]
-    );
+//     const newUser = await pool.query("INSERT INTO profiles (email, username, password, headline, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies, photo_url, photo_pet_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING *",
+//       [email, username, bcryptPassword, headline, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies, photo_url, photo_pet_url]
+//     );
 
-    // generate jwt token
+//     // generate jwt token
 
-    const token = jwtGenerator(newUser.rows[0].user_id);
+//     const token = jwtGenerator(newUser.rows[0].user_id);
 
-    res.json({ token })
+//     res.json({ token })
 
-  } catch (err) {
-    console.log(err.message)
-    res.status(500).json({err: 'Something went wrong'})
-  }
-})
+//   } catch (err) {
+//     console.log(err.message)
+//     res.status(500).json({err: 'Something went wrong'})
+//   }
+// })
 
 app.post('/user', async(req,res) => {
   try {

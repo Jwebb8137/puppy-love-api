@@ -2,9 +2,8 @@ const router = require("express").Router();
 const pool = require("../db");
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../utils/jwtGenerator");
-const authorization = require("../middleware/authorization");
 
-router.post("/", authorization, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     //1. destructure the req.body
     const {username, passwordInput} = req.body;

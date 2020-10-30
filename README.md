@@ -10,20 +10,28 @@
 ## Endpoints
 
 ### `GET /users`
+<p>Retrieve all active users from the database.</p>
 
 ### `GET /users/:userid`
+<p>Retrieve a specific user from the database.</p>
 
-### `POST /users/:userid`
+### `POST /users`
+<p>Create a user and store their information in the database.</p>
 
 ### `GET /dashboard`
+<p>Get logged in user information.</p>
 
 ### `GET /images`
+<p>Retrieve stored images from the cloudinary API hosting app images.</p>
 
 ### `POST /login`
+<p>Send a login request to the database.</p>
 
 ### `GET /target-info`
+<p>Retrieve information for a target user.</p>
 
 ### `GET /is-verified`
+<p>Check if user is authorized / has been issued a token.</p>
 
 ## Additional Information
 <p>This application was designed and developed as part of a full-stack project that required developing an application using the PERN stack. As my first full-stack project I expanded upon those requirements by including additional features and functionality within the application such as login authentication & use of 3rd party API's (Twilio & Cloudinary). Also worth nothing is that while working with Twilio's Chat API I did run into issues that limited my ability to incorporate a fully functioning chat feature within the application. While is does allow user's connected into the same chat room to real-time communicate and send messages to other users there is limited functionality as of this writing related to receiving messages and retrieving conversations.</p>  

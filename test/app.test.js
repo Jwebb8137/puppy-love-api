@@ -106,8 +106,6 @@ it('creates new user, as expected', function(done) { // <= Pass in done callback
   })
   .then((res) => {
     expect(res).to.have.status(200)
-    const body = res.body
-    // console.log(body) - not really needed, but I include them as a comment
   done();
   }).catch((err) => done(err))
 });

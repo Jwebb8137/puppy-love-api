@@ -16,7 +16,7 @@ usersRouter
       console.error(err.message)
     }
   })
-  .post("/", async (req, res) => {
+  .post( async (req, res) => {
     try {
       //Upload image to cloudinary   
       const { previewSource } = req.body;

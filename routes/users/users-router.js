@@ -5,7 +5,7 @@ const { cloudinary } = require("../../utils/cloudinary");
 const pool = require("../../db");
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../../utils/jwtGenerator");
-const { NetworkContext } = require('twilio/lib/rest/supersim/v1/network');
+const authorization = require("....//middleware/authorization");
 
 usersRouter  
   .route('/')
@@ -76,10 +76,9 @@ usersRouter
       }  
     })
 
-
     usersRouter
     .route('/profile-pic/:userid')
-    .post( async (req, res, next) => {
+    .post( authorization, async (req, res ) => {
       try {
         //Upload image to cloudinary 
         const {previewSource, user_id} = req.body;
@@ -94,7 +93,6 @@ usersRouter
         console.log(err.message)
         res.status(500).json({err: 'Something went wrong'})
       }
-      next();
     })
 
   module.exports = usersRouter;

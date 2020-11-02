@@ -8,7 +8,7 @@ const jwtGenerator = require("../../utils/jwtGenerator");
 
 usersRouter  
   .route('/')
-  .get("/", async(req, res) => {
+  .get("/", async (req, res) => {
     try {
       const allUsers = await pool.query("SELECT * FROM profiles")
       res.json(allUsers.rows)
@@ -74,3 +74,5 @@ usersRouter
       res.status(500).json({err: 'Something went wrong'})
     }
   });
+
+  module.exports = usersRouter;

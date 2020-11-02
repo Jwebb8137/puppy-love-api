@@ -1,6 +1,7 @@
 const express = require("express");
 const { cloudinary } = require("./utils/cloudinary");
 const cors = require("cors");
+const helmet = require("helmet");
 const pool = require("./db");
 const path = require("path");
 const bcrypt = require("bcrypt");
@@ -14,7 +15,8 @@ const app = express();
 
 //MIDDLEWARE
 
-app.use(cors())
+app.use(helmet());
+app.use(cors());
 app.options('*', cors());
 app.use(express.json({ limit: '50mb' })); //req.body
 app.use(express.urlencoded({ limit: '50mb', extended: true }));

@@ -28,6 +28,14 @@ if(process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client/build")));
 }
 
+app.use("/api/images", require("./routes/cloudinary"));
+
+app.use("/api/login", require("./routes/login"));
+
+app.use("/api/users", usersRouter)
+
+app.use("/api/dashboard", require("./routes/dashboard"));
+
 //JWT VERIFICATION
 
 app.get("/api/is-verified", authorization, async (req, res) => {
@@ -38,8 +46,6 @@ app.get("/api/is-verified", authorization, async (req, res) => {
     res.status(500).send("Server Error")
   }
 })
-
-app.use("/api/dashboard", require("./routes/dashboard"));
 
 //RETRIEVE TARGET USER INFO
 
@@ -53,15 +59,7 @@ app.get("/api/target-info", authorization, async (req, res) => {
   }
 })
 
-app.use("/api/images", require("./routes/cloudinary"));
-
-app.use("/api/login", require("./routes/login"));
-
-app.use("/api/users", usersRouter)
-
-
 //CHAT HANDLERS
-
 const sendTokenResponse = (token, res) => {
   res.set('Content-Type', 'application/json');
   res.send(
@@ -106,29 +104,5 @@ app.post('/video/token', (req, res) => {
 app.get("*", (req,res) => {
   res.sendFile(path.join(__dirname, "client/build/index.html"))
 });
-
-//EDIT PROFILE PIC
-
-// app.post('/api/users/profile-pic/:userid', async(req,res) => {
-//   try {
-//     console.log("working")
-
-//     //Upload image to cloudinary
-
-//     const {previewSource, user_id} = req.body;
-//     const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
-//       upload_preset: 'default'
-//     })
-//     const photo_url = uploadedResponse.url;
-//     const updatePhoto = await pool.query("UPDATE profiles SET photo_url = $1 WHERE user_id = $2",
-//     [photo_url, user_id]
-//     );
-//     console.log("working")
-//     res.end()
-//   } catch (err) {
-//     console.log(err.message)
-//     res.status(500).json({err: 'Something went wrong'})
-//   }
-// })
 
 module.exports = app;

@@ -5,7 +5,6 @@ const { cloudinary } = require("../../utils/cloudinary");
 const pool = require("../../db");
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../../utils/jwtGenerator");
-const authorization = require("../../middleware/authorization");
 
 usersRouter  
   .route('/')
@@ -78,7 +77,7 @@ usersRouter
 
     usersRouter
     .route('/profile-pic/:userid')
-    .post( authorization, async (req, res ) => {
+    .post( async (req, res ) => {
       try {
         //Upload image to cloudinary 
         const {previewSource, user_id} = req.body;

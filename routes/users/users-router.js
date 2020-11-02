@@ -8,38 +8,14 @@ const jwtGenerator = require("../../utils/jwtGenerator");
 
 usersRouter  
   .route('/')
-  .get("/", async (req, res, next) => {
+  .get( async (req, res) => {
     try {
       const allUsers = await pool.query("SELECT * FROM profiles")
       res.json(allUsers.rows)
     } catch (err) {
       console.error(err.message)
     }
-    next();
   })
-
-  .get("/:userid", async (req, res) => {
-    try {
-      const { userid } = req.params
-      const user = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [userid])
-      res.json(user.rows[0])
-    } catch (err) {
-      console.log(err.message)
-    }
-    next();
-  })
-
-  .delete("/:userid", async (req, res) => {
-    try {
-      const { userid } = req.params
-      const deleteUser = await pool.query("DELETE FROM profiles WHERE user_id = $1", [userid])
-      res.json("User was deleted!")
-    } catch (err) {
-      console.log(err.message)
-    }  
-    next();
-  })
-
   .post("/", async (req, res) => {
     try {
       //Upload image to cloudinary   
@@ -76,7 +52,27 @@ usersRouter
       console.log(err.message)
       res.status(500).json({err: 'Something went wrong'})
     }
-    next();
   });
+
+  usersRouter
+    .route('/:userid')
+    .get( async (req, res) => {
+      try {
+        const { userid } = req.params
+        const user = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [userid])
+        res.json(user.rows[0])
+      } catch (err) {
+        console.log(err.message)
+      }
+    })
+    .delete( async (req, res) => {
+      try {
+        const { userid } = req.params
+        const deleteUser = await pool.query("DELETE FROM profiles WHERE user_id = $1", [userid])
+        res.json("User was deleted!")
+      } catch (err) {
+        console.log(err.message)
+      }  
+    })
 
   module.exports = usersRouter;

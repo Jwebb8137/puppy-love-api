@@ -88,6 +88,7 @@ usersRouter
         const updatePhoto = await pool.query("UPDATE profiles SET photo_url = $1 WHERE user_id = $2",
         [photo_url, user_id]
         );
+        res.end()
       } catch (err) {
         console.log(err.message)
         res.status(500).json({err: 'Something went wrong'})

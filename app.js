@@ -59,40 +59,6 @@ app.use("/api/login", require("./routes/login"));
 
 app.use("/api/users", usersRouter)
 
-//GET ALL USERS
-
-// app.get("/users", async(req, res) => {
-//   try {
-//     const allUsers = await pool.query("SELECT * FROM profiles")
-//     res.json(allUsers.rows)
-//   } catch (err) {
-//     console.error(err.message)
-//   }
-// })
-
-// //GET A USER
-
-// app.get("/users/:userid", async (req, res) => {
-//   try {
-//     const { userid } = req.params
-//     const user = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [userid])
-//     res.json(user.rows[0])
-//   } catch (err) {
-//     console.log(err.message)
-//   }
-// })
-
-// // //DELETE A USER
-
-// app.delete("/users/:userid", async (req, res) => {
-//   try {
-//     const { userid } = req.params
-//     const deleteUser = await pool.query("DELETE FROM profiles WHERE user_id = $1", [userid])
-//     res.json("User was deleted!")
-//   } catch (err) {
-//     console.log(err.message)
-//   }  
-// })
 
 //CHAT HANDLERS
 
@@ -143,26 +109,26 @@ app.get("*", (req,res) => {
 
 //EDIT PROFILE PIC
 
-app.post('/api/users/:userid', async(req,res) => {
-  try {
-    console.log("working")
+// app.post('/api/users/profile-pic/:userid', async(req,res) => {
+//   try {
+//     console.log("working")
 
-    //Upload image to cloudinary
+//     //Upload image to cloudinary
 
-    const {previewSource, user_id} = req.body;
-    const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
-      upload_preset: 'default'
-    })
-    const photo_url = uploadedResponse.url;
-    const updatePhoto = await pool.query("UPDATE profiles SET photo_url = $1 WHERE user_id = $2",
-    [photo_url, user_id]
-    );
-    console.log("working")
-    res.end()
-  } catch (err) {
-    console.log(err.message)
-    res.status(500).json({err: 'Something went wrong'})
-  }
-})
+//     const {previewSource, user_id} = req.body;
+//     const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
+//       upload_preset: 'default'
+//     })
+//     const photo_url = uploadedResponse.url;
+//     const updatePhoto = await pool.query("UPDATE profiles SET photo_url = $1 WHERE user_id = $2",
+//     [photo_url, user_id]
+//     );
+//     console.log("working")
+//     res.end()
+//   } catch (err) {
+//     console.log(err.message)
+//     res.status(500).json({err: 'Something went wrong'})
+//   }
+// })
 
 module.exports = app;

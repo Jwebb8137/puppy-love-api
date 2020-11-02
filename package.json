@@ -15,7 +15,8 @@
     "start": "node server.js",
     "predeploy": "npm audit",
     "deploy": "git push heroku master",
-    "postdeploy": "npm run migrate:production"
+    "postdeploy": "npm run migrate:production",
+    "git": "git push origin master"
   },
   "author": "",
   "license": "ISC",

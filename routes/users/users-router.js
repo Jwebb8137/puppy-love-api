@@ -5,7 +5,7 @@ const { cloudinary } = require("../../utils/cloudinary");
 const pool = require("../../db");
 const bcrypt = require("bcrypt");
 const jwtGenerator = require("../../utils/jwtGenerator");
-const authorization = require("....//middleware/authorization");
+const authorization = require("../../middleware/authorization");
 
 usersRouter  
   .route('/')

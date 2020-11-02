@@ -57,9 +57,8 @@ app.use("/api/images", require("./routes/cloudinary"));
 
 app.use("/api/login", require("./routes/login"));
 
-app.use("/api/users", usersRouter
+app.use("/api/users", usersRouter)
 
-)
 //GET ALL USERS
 
 // app.get("/users", async(req, res) => {

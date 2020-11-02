@@ -8,13 +8,14 @@ const jwtGenerator = require("../../utils/jwtGenerator");
 
 usersRouter  
   .route('/')
-  .get("/", async (req, res) => {
+  .get("/", async (req, res, next) => {
     try {
       const allUsers = await pool.query("SELECT * FROM profiles")
       res.json(allUsers.rows)
     } catch (err) {
       console.error(err.message)
     }
+    next();
   })
 
   .get("/:userid", async (req, res) => {
@@ -25,6 +26,7 @@ usersRouter
     } catch (err) {
       console.log(err.message)
     }
+    next();
   })
 
   .delete("/:userid", async (req, res) => {
@@ -35,6 +37,7 @@ usersRouter
     } catch (err) {
       console.log(err.message)
     }  
+    next();
   })
 
   .post("/", async (req, res) => {
@@ -73,6 +76,7 @@ usersRouter
       console.log(err.message)
       res.status(500).json({err: 'Something went wrong'})
     }
+    next();
   });
 
   module.exports = usersRouter;

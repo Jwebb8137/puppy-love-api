@@ -10,6 +10,7 @@ const authorization = require("./middleware/authorization");
 const config = require('./config');
 const bodyParser = require('body-parser');
 const { chatToken, videoToken } = require('./tokens');
+const usersRouter = require('./routes/users/users-router');
 
 const app = express();
 
@@ -29,7 +30,7 @@ if(process.env.NODE_ENV === "production") {
 
 //JWT VERIFICATION
 
-app.get("/is-verified", authorization, async (req, res) => {
+app.get("/api/-verified", authorization, async (req, res) => {
   try {
     res.json(true); 
   } catch (err) {
@@ -38,11 +39,11 @@ app.get("/is-verified", authorization, async (req, res) => {
   }
 })
 
-app.use("/dashboard", require("./routes/dashboard"));
+app.use("/api/dashboard", require("./routes/dashboard"));
 
 //RETRIEVE TARGET USER INFO
 
-app.get("/target-info", authorization, async (req, res) => {
+app.get("/api/target-info", authorization, async (req, res) => {
   try {
     const user = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [req.query.target]);
     res.json(user.rows[0]);
@@ -52,46 +53,47 @@ app.get("/target-info", authorization, async (req, res) => {
   }
 })
 
-app.use("/images", require("./routes/cloudinary"));
+app.use("/api/images", require("./routes/cloudinary"));
 
-app.use("/login", require("./routes/login"));
+app.use("/api/login", require("./routes/login"));
 
-app.use("/users", require("./routes/createUser"));
+app.use("/api/users", usersRouter
 
+)
 //GET ALL USERS
 
-app.get("/users", async(req, res) => {
-  try {
-    const allUsers = await pool.query("SELECT * FROM profiles")
-    res.json(allUsers.rows)
-  } catch (err) {
-    console.error(err.message)
-  }
-})
+// app.get("/users", async(req, res) => {
+//   try {
+//     const allUsers = await pool.query("SELECT * FROM profiles")
+//     res.json(allUsers.rows)
+//   } catch (err) {
+//     console.error(err.message)
+//   }
+// })
 
-//GET A USER
+// //GET A USER
 
-app.get("/users/:userid", async (req, res) => {
-  try {
-    const { userid } = req.params
-    const user = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [userid])
-    res.json(user.rows[0])
-  } catch (err) {
-    console.log(err.message)
-  }
-})
+// app.get("/users/:userid", async (req, res) => {
+//   try {
+//     const { userid } = req.params
+//     const user = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [userid])
+//     res.json(user.rows[0])
+//   } catch (err) {
+//     console.log(err.message)
+//   }
+// })
 
-// //DELETE A USER
+// // //DELETE A USER
 
-app.delete("/users/:userid", async (req, res) => {
-  try {
-    const { userid } = req.params
-    const deleteUser = await pool.query("DELETE FROM profiles WHERE user_id = $1", [userid])
-    res.json("User was deleted!")
-  } catch (err) {
-    console.log(err.message)
-  }  
-})
+// app.delete("/users/:userid", async (req, res) => {
+//   try {
+//     const { userid } = req.params
+//     const deleteUser = await pool.query("DELETE FROM profiles WHERE user_id = $1", [userid])
+//     res.json("User was deleted!")
+//   } catch (err) {
+//     console.log(err.message)
+//   }  
+// })
 
 //CHAT HANDLERS
 
@@ -142,7 +144,7 @@ app.get("*", (req,res) => {
 
 //EDIT PROFILE PIC
 
-app.post('/users/:userid', async(req,res) => {
+app.post('/api/users/:userid', async(req,res) => {
   try {
     console.log("working")
 

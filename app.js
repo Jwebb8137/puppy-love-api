@@ -30,7 +30,7 @@ if(process.env.NODE_ENV === "production") {
 
 //JWT VERIFICATION
 
-app.get("/api/-verified", authorization, async (req, res) => {
+app.get("/api/is-verified", authorization, async (req, res) => {
   try {
     res.json(true); 
   } catch (err) {

@@ -117,6 +117,17 @@ app.post("/api/chatroom/info", async (req, res) => {
   }
 })
 
+app.get("/api/chatroom/info", async (req, res) => {
+  try {
+    const { chatName } = req.body;
+    const chatInfo = await pool.query("SELECT * FROM chat WHERE chat_id = $1", [chatName]);  
+    res.json(user.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error")
+  }
+})
+
 
 
 

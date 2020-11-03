@@ -36,7 +36,7 @@
 ### `GET /api/chat-info`
 <p>Retrieve chat information related to a specific chat room.</p>
 
-### `GET /api/chatroom/info`
+### `POST /api/chatroom/info`
 <p>Store information when a new chat room is created.</p>
 
 ## Additional Information

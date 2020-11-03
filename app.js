@@ -1,11 +1,8 @@
 const express = require("express");
-const { cloudinary } = require("./utils/cloudinary");
 const cors = require("cors");
 const helmet = require("helmet");
 const pool = require("./db");
 const path = require("path");
-const bcrypt = require("bcrypt");
-const jwtGenerator = require("./utils/jwtGenerator");
 const authorization = require("./middleware/authorization");
 const config = require('./config');
 const bodyParser = require('body-parser');
@@ -59,6 +56,20 @@ app.get("/api/target-info", authorization, async (req, res) => {
   }
 })
 
+//CHAT STORAGE AND RETRIEVAL
+
+app.post("/api/chatroom/info", async (req, res) => {
+  try {
+    const { uid, chatMemberOrigin, chatMemberSecondary } = req.body;
+    const chatInfo = await pool.query("INSERT INTO chat (chat_id, chat_member_origin, chat_member_secondary) VALUES ($1, $2, $3) RETURNING *",
+      [uid, chatMemberOrigin, chatMemberSecondary]
+    );  
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error")
+  }
+})
+
 app.get("/api/chat-info", authorization, async (req, res) => {
   try {
     console.log(req.query.chatId)
@@ -72,6 +83,7 @@ app.get("/api/chat-info", authorization, async (req, res) => {
 })
 
 //CHAT HANDLERS
+
 const sendTokenResponse = (token, res) => {
   res.set('Content-Type', 'application/json');
   res.send(
@@ -116,17 +128,5 @@ app.post('/video/token', (req, res) => {
 app.get("*", (req,res) => {
   res.sendFile(path.join(__dirname, "client/build/index.html"))
 });
-
-app.post("/api/chatroom/info", async (req, res) => {
-  try {
-    const { uid, chatMemberOrigin, chatMemberSecondary } = req.body;
-    const chatInfo = await pool.query("INSERT INTO chat (chat_id, chat_member_origin, chat_member_secondary) VALUES ($1, $2, $3) RETURNING *",
-      [uid, chatMemberOrigin, chatMemberSecondary]
-    );  
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error")
-  }
-})
 
 module.exports = app;

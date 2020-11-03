@@ -120,10 +120,10 @@ app.post("/api/chatroom/info", async (req, res) => {
 app.get("/api/chat-info/:chatId", async (req, res) => {
   try {
     console.log(req.params)
-    const { chatId } = req.params
-    console.log(chatId)
-    const chatInfo = await pool.query("SELECT * FROM chat WHERE chat_id = $1", [chatId]);  
-    res.json(chatInfo.rows[0]);
+    // const { chatId } = req.params
+    // console.log(chatId)
+    // const chatInfo = await pool.query("SELECT * FROM chat WHERE chat_id = $1", [chatId]);  
+    // res.json(chatInfo.rows[0]);
   } catch (err) {
     console.log("not working")
     console.error(err.message);

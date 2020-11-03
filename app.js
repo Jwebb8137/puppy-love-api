@@ -105,4 +105,23 @@ app.get("*", (req,res) => {
   res.sendFile(path.join(__dirname, "client/build/index.html"))
 });
 
+app.post("/api/chatroom/info", async (req, res) => {
+  const { email, username, headline, password, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies } = req.body;
+  //check for existing user (if so throw error)
+  const user = await pool.query("SELECT * FROM profiles WHERE username = $1", [username])   
+
+  try {
+    const { uid, chatMemberOrigin, chatMemberSecondary } = req.body;
+    const chatInfo = await pool.query("INSERT INTO chat (chat-id, chat-member-origin, chat-member-secondary) VALUES ($1, $2, $3) RETURNING *",
+      [uid, chatMemberOrigin, chatMemberSecondary]
+    );  
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error")
+  }
+})
+
+
+
+
 module.exports = app;

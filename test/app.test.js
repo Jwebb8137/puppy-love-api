@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 
 it('retrieves users, as expected', function(done) { // <= Pass in done callback
   chai.request('https://puppylove-api.herokuapp.com')
-  .get('/users')
+  .get('/api/users')
   .end(function(err, res) {
     expect(res).to.have.status(200);
     done();                               // <= Call done to signal callback end
@@ -24,7 +24,7 @@ it('retrieves users, as expected', function(done) { // <= Pass in done callback
 
 it('logs in user, as expected', function(done) { // <= Pass in done callback
   chai.request('https://puppylove-api.herokuapp.com')
-  .post('/login')
+  .post('/api/login')
   .send({ username: 'Dogguy1', passwordInput: 'Brendon2020!' })
   .then(function (res) {
     expect(res).to.have.status(200);
@@ -40,7 +40,7 @@ it('logs in user, as expected', function(done) { // <= Pass in done callback
 
 it('does note create user, because username already exist', function(done) { // <= Pass in done callback
   chai.request('https://puppylove-api.herokuapp.com')
-  .post('/users')
+  .post('/api/users')
   .set({
     "Content-type": "application/json",
     "body":"JSON.stringify(body)"
@@ -77,7 +77,7 @@ it('does note create user, because username already exist', function(done) { // 
 
 it('creates new user, as expected', function(done) { // <= Pass in done callback
   chai.request('https://puppylove-api.herokuapp.com')
-  .post('/users')
+  .post('/api/users')
   .set({
     "Content-type": "application/json",
     "body":"JSON.stringify(body)"

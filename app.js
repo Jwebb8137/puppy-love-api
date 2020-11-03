@@ -121,7 +121,7 @@ app.get("/api/chatroom/info/:chatId", authorization, async (req, res) => {
   try {
     const { chatId } = req.params
     const chatInfo = await pool.query("SELECT * FROM chat WHERE chat_id = $1", [chatId]);  
-    res.json(user.rows[0]);
+    res.json(chatInfo.rows[0]);
   } catch (err) {
     console.log("not working")
     console.error(err.message);

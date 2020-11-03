@@ -117,7 +117,7 @@ app.post("/api/chatroom/info", async (req, res) => {
   }
 })
 
-app.get("/api/chat-info/:chatId", async (req, res) => {
+app.get("/api/chat-info/chatId", async (req, res) => {
   try {
     console.log(req.params)
     // const { chatId } = req.params

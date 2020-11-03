@@ -68,7 +68,7 @@ usersRouter
     .delete( async (req, res) => {
       try {
         const { userid } = req.params
-        const deleteUser = await pool.query("DELETE username FROM profiles WHERE user_id = $1", [userid])
+        const deleteUser = await pool.query("DELETE FROM profiles WHERE user_id = $1", [userid])
         res.json("User was deleted!")
       } catch (err) {
         console.log(err.message)

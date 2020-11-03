@@ -117,7 +117,7 @@ app.post("/api/chatroom/info", async (req, res) => {
   }
 })
 
-app.get("/api/chatroom/info/:chatId", async (req, res) => {
+app.get("/api/chatroom/info/:chatId", authorization, async (req, res) => {
   try {
     const { chatId } = req.params
     const chatInfo = await pool.query("SELECT * FROM chat WHERE chat_id = $1", [chatId]);  

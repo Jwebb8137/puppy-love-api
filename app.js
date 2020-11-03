@@ -79,6 +79,7 @@ app.get("/api/chat-info", authorization, async (req, res) => {
     console.log("not working")
     console.error(err.message);
     res.status(500).send("Server Error")
+    res.end()
   }
 })
 

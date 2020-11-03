@@ -59,6 +59,18 @@ app.get("/api/target-info", authorization, async (req, res) => {
   }
 })
 
+app.get("/api/chat-info", authorization, async (req, res) => {
+  try {
+    console.log(req.query.chatId)
+    const chatInfo = await pool.query("SELECT * FROM chat WHERE chat_id = $1", [req.query.chatId]);  
+    res.json(chatInfo.rows[0]);
+  } catch (err) {
+    console.log("not working")
+    console.error(err.message);
+    res.status(500).send("Server Error")
+  }
+})
+
 //CHAT HANDLERS
 const sendTokenResponse = (token, res) => {
   res.set('Content-Type', 'application/json');
@@ -112,18 +124,6 @@ app.post("/api/chatroom/info", async (req, res) => {
       [uid, chatMemberOrigin, chatMemberSecondary]
     );  
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error")
-  }
-})
-
-app.get("/api/chat-info/chatId", async (req, res) => {
-  try {
-    console.log(req.query.chatId)
-    const chatInfo = await pool.query("SELECT * FROM chat WHERE chat_id = $1", [req.query.chatId]);  
-    res.json(chatInfo.rows[0]);
-  } catch (err) {
-    console.log("not working")
     console.error(err.message);
     res.status(500).send("Server Error")
   }

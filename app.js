@@ -119,11 +119,23 @@ app.post("/api/chatroom/info", async (req, res) => {
 
 app.get("/api/chatroom/info/:chatId", authorization, async (req, res) => {
   try {
+    console.log(req.params)
     const { chatId } = req.params
+    console.log(chatId)
     const chatInfo = await pool.query("SELECT * FROM chat WHERE chat_id = $1", [chatId]);  
     res.json(chatInfo.rows[0]);
   } catch (err) {
     console.log("not working")
+    console.error(err.message);
+    res.status(500).send("Server Error")
+  }
+})
+
+app.get("/api/target-info", authorization, async (req, res) => {
+  try {
+    const user = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [req.query.target]);
+    res.json(user.rows[0]);
+  } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error")
   }

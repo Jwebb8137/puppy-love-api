@@ -131,17 +131,4 @@ app.get("/api/chatroom/info/:chatId", authorization, async (req, res) => {
   }
 })
 
-app.get("/api/target-info", authorization, async (req, res) => {
-  try {
-    const user = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [req.query.target]);
-    res.json(user.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error")
-  }
-})
-
-
-
-
 module.exports = app;

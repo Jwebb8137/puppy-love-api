@@ -52,7 +52,7 @@ app.get("/api/target-info", authorization, async (req, res) => {
     res.json(user.rows[0]);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server Error")
+    res.end();
   }
 })
 

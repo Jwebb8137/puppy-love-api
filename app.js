@@ -52,7 +52,7 @@ app.get("/api/target-info", authorization, async (req, res) => {
     res.json(user.rows[0]);
   } catch (err) {
     console.error(err.message);
-    res.end();
+    res.send("");
   }
 })
 
@@ -66,7 +66,7 @@ app.post("/api/chatroom/info", async (req, res) => {
     );  
   } catch (err) {
     console.error(err.message);
-    res.end()
+    res.send("")
   }
 })
 

@@ -65,7 +65,7 @@ app.post("/api/chatroom/info", async (req, res) => {
       [uid, chatMemberOrigin, chatMemberSecondary]
     );  
   } catch (err) {
-    res.send("")
+    res.status(200).send("Active Conversation")
   }
 })
 

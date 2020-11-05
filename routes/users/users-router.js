@@ -23,13 +23,13 @@ usersRouter
       const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
         upload_preset: 'default'
       })
-      const photo_url = uploadedResponse.url;
+      const photo_url = uploadedResponse.secure_url;
       //Upload pet image to cloudinary
       const { previewPetSource } = req.body;
       const uploadedPetResponse = await cloudinary.uploader.upload(previewPetSource, {
         upload_preset: 'default'
       })
-      const photo_pet_url = uploadedPetResponse.url;
+      const photo_pet_url = uploadedPetResponse.secure_url;
       //destructure body
       const { email, username, headline, password, first_name, last_name, age, hobbies, gender, seeking_gender, description, pet_type, pet_name, pet_description, pet_meet_description, pet_hobbies } = req.body;
       //check for existing user (if so throw error)

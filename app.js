@@ -65,7 +65,6 @@ app.post("/api/chatroom/info", async (req, res) => {
       [uid, chatMemberOrigin, chatMemberSecondary]
     );  
   } catch (err) {
-    console.error(err.message);
     res.send("")
   }
 })

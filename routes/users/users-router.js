@@ -84,6 +84,7 @@ usersRouter
         const uploadedResponse = await cloudinary.uploader.upload(previewSource, {
           upload_preset: 'default'
         })
+        console.log(uploadedResponse)
         const photo_url = uploadedResponse.url;
         const updatePhoto = await pool.query("UPDATE profiles SET photo_url = $1 WHERE user_id = $2",
         [photo_url, user_id]
